@@ -35,7 +35,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
       if(d.scc[i] == 0) d.low[v] = Math.min(d.low[i], d.low[v]);
     }
     if(d.low[v] == d.dfsnum[v]){
-      d.numCompos++;
+      d.numCompos++; //Commence à numéroter à partir de 1
       int top;
       do{
         top = d.stack.pop();
