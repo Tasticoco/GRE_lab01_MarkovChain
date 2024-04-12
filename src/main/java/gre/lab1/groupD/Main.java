@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Ce programme permet de trouver les composantes fortement connexes grâce à l'algorithme de Tarjan et un autre de
- * contracction et d'ensuite les analyser en temps que chaîne de Markov.
+ * Ce programme permet de trouver les composantes fortement connexes grâce à l'algorithme de Tarjan et
+ * d'ensuite les analyser en tant que chaîne de Markov grâce à l'algorithme de contraction qui nous permet d'avoir
+ * un graphe de ces composantes fortement connexes.
  * Les graphes sont passés sous forme de fichier .txt avec une structure définie à l'avance (cf. "format données"
  * dans le pdf du labo).
  *
