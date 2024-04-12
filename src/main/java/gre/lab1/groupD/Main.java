@@ -18,26 +18,16 @@ import java.util.List;
  */
 public class Main {
 
-  final static String fileToRead = "data/exemple_tarjan.txt";
+  final static String FILE_TO_READ = "data/exemple_tarjan.txt";
 
   public static void main(String[] args) throws IOException {
 
-    // TODO
-    //  - Renommage du package ;
-    //  - Écrire le code dans les fichiers Main.java, TarjanAlgorithm.java, ContractionAlgorithm.java
-    //    et UNIQUEMENT ceux-ci ;
-    //  - Documentation soignée comprenant :
-    //    - la javadoc, avec auteurs et description des implémentations ;
-    //    - des commentaires sur les différentes parties de vos algorithmes.
-
-
-    DirectedGraph graph = DirectedGraphReader.fromFile(fileToRead);
+    DirectedGraph graph = DirectedGraphReader.fromFile(FILE_TO_READ);
 
     //On initialise un algorithme de contraction avec l'algorithme de Tarjan
     ContractionAlgorithm ca = new ContractionAlgorithm(new TarjanAlgorithm());
 
     printGraphCondensationResult(ca.compute(graph));
-
   }
 
   /**
