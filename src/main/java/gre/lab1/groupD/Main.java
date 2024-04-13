@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Main {
 
-  final static String FILE_TO_READ = "data/exemple_tarjan.txt";
+  final static String FILE_TO_READ = "data/chaine1.txt";
 
   public static void main(String[] args) throws IOException {
 
@@ -32,7 +32,7 @@ public class Main {
   }
 
   /**
-   * Nous permet d'afficher les informations liés à la chaine de Markov donnée par l'objet GraphCondensation
+   * Permet d'afficher les informations liées à la chaine de Markov donnée par l'objet GraphCondensation
    * @param gc le graphe à afficher
    */
   static void printGraphCondensationResult(GraphCondensation gc){
@@ -51,8 +51,8 @@ public class Main {
 
   /**
    * Permet d'avoir un affichage qui commence à 1 au lieu de 0 pour pouvoir lire les informations plus facilement
-   * @param l une liste de int qui représente les index de chacun des sommets
-   * @return un String
+   * @param l Une liste de 'int' qui représente les index de chacun des sommets
+   * @return Un String du graphe
    */
   static String printArrayPlusOne(List<Integer> l){
     return l.stream().map(n -> n + 1).toList().toString();

@@ -6,7 +6,12 @@ import gre.lab1.graph.SccAlgorithm;
 
 import java.util.Stack;
 
-
+/**
+ * Classe servant à trouver toutes les composantes fortement connexe d'un graphe.
+ * Cette classe implémente l'algorithme de Tarjan -> Plus d'info : <a href="https://fr.wikipedia.org/wiki/Algorithme_de_Tarjan">Algorithme de Tarjan - Wikipedia</a>
+ * @author Edwin Haeffner
+ * @author Arthur Junod
+ */
 public final class TarjanAlgorithm implements SccAlgorithm {
 
   /**
@@ -17,20 +22,20 @@ public final class TarjanAlgorithm implements SccAlgorithm {
    * @author Arthur Junod
    */
   private static class DataTarjan {
-    public Stack<Integer> stack = new Stack<>();  // La pile qui nous permet de garder en mémoire les sommets qui nous restent à classer
+    public Stack<Integer> stack = new Stack<>();  // Pile qui nous permet de garder en mémoire les sommets restant à classer
     public int numDfsnum = 0;                     // Variable à incrémenter pour générer l'ordre de visite de chaque sommet
     public int numCompos = 0;                     // Variable à incrémenter pour générer le numéro de chaque composante fortement connexe
     public int nbVertices;                        // Nombre de sommets
 
-    // Chaque tableau a la taille du nombre de sommet, de ce fait on peut accéder a la donnée relative au sommet i avec tab[i]
+    // Chaque tableau est de la taille du nombre de sommets, de ce fait, on peut accéder à la donnée relative au sommet i avec tab[i]
     public int[] dfsnum;  // Tableau contenant l'ordre de visite de chaque sommet
     public int[] scc;     // Tableau contenant l'appartenance de chaque sommet à une composante fortement connexe
-    public int[] low;     // Tableau contenant le plus vieil ancêtre accessbile de chaque sommet
+    public int[] low;     // Tableau contenant le plus vieil ancêtre accessible de chaque sommet
 
     /**
-     * Constructeur
-     * @param graph Le graphe sur lequel nous allons appliquer l'algorithme de Tarjan ce qui nous
-     *              permet de préparer les tableaux et récupérer le nombre de sommets
+     * Constructeur permettant de préparer les tableaux et récupérer le nombre de sommets
+     * @param graph Le graphe sur lequel nous allons appliquer l'algorithme de Tarjan
+     *
      */
     public DataTarjan(DirectedGraph graph){
       nbVertices  = graph.getNVertices();
@@ -40,13 +45,13 @@ public final class TarjanAlgorithm implements SccAlgorithm {
     }
   }
 
-  private DirectedGraph graph; // Le graphique sur lequel on applique Tarjan
+  private DirectedGraph graph; // Le graphe sur lequel on applique Tarjan
 
   /**
-   * Applique l'algorithme de Tarjan sur un graphe et permet de récupérer le résultat
+   * Applique l'algorithme de Tarjan sur un graphe et permet d'en récupérer le résultat
    *
    * @param graph Le graphe sur lequel on applique Tarjan
-   * @return Un nouveau graphe qui connait les différentes composantes fortement connexes du graphe donné
+   * @return Un nouveau graphe qui a les informations sur les différentes composantes fortement connexes du graphe donné
    */
   @Override
   public GraphScc compute(DirectedGraph graph) {
@@ -55,11 +60,14 @@ public final class TarjanAlgorithm implements SccAlgorithm {
 
     DataTarjan data = new DataTarjan(graph);
 
+    //Effectue la procédure de découverte des composantes fortements connexe sur chaque sommet
     for(int i = 0; i < data.nbVertices; ++i){
+      // Vérifie que le sommet n'a pas été déjà traité par l'appel récursif de sccProcedure()
       if(data.scc[i] == 0){
         sccProcedure(i,data);
       }
     }
+
 
     return new GraphScc(graph, data.numCompos, data.scc);
   }
@@ -76,23 +84,23 @@ public final class TarjanAlgorithm implements SccAlgorithm {
     //On rajoute le sommet sur la pile
     d.stack.push(v);
 
-    //Pour chaque sommets successeur à 'v'
+    //Pour chaque sommet successeur à 'v'
     for(int successor : graph.getSuccessorList(v)){
       if(d.dfsnum[successor] == 0) sccProcedure(successor, d); //Si le sommet n'a pas été encore visité, nous y allons récursivement
       // Mettre à jour la valeur "low" de v si successor à un ancêtre accessible qui est plus vieux (si son low est plus petit)
       if(d.scc[successor] == 0) d.low[v] = Math.min(d.low[successor], d.low[v]);
     }
     /*
-    Si on a pas trouvé d'ancêtre accessible plus vieux que soit même dans les successeur,
-    on peut créer une composante fortement connexe pour ce sommet.
+    Si on n'a pas trouvé d'ancêtre accessible plus vieux que soi-même dans les successeurs,
+    on crée une composante fortement connexe pour ce sommet.
     */
     if(d.low[v] == d.dfsnum[v]){
-      d.numCompos++; //Commence à numéroter les composantes à partir de 1
+      d.numCompos++; //Commence à numéroter les composantes à partir de 1.
       int top;
       do{
         top = d.stack.pop(); // On récupère chaque ancêtre grâce à la pile
         d.scc[top] = d.numCompos; // On donne à chaque ancêtre récupéré le numéro de la composante
-      } while (top != v); // jusqu'à arriver à v
+      } while (top != v); // jusqu'à arriver au sommet 'v'
     }
   }
 }
